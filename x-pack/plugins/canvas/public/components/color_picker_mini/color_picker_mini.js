@@ -6,7 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EuiLink } from '@elastic/eui';
+import { EuiLink, EuiScreenReaderOnly } from '@elastic/eui';
+import { FormattedMessage } from '@kbn/i18n/react';
 import { Popover } from '../popover';
 import { ColorPicker } from '../color_picker';
 import { ColorDot } from '../color_dot';
@@ -15,7 +16,14 @@ import { WorkpadColorPicker } from '../workpad_color_picker/';
 export const ColorPickerMini = ({ onChange, value, anchorPosition, colors }) => {
   const button = handleClick => (
     <EuiLink style={{ fontSize: 0 }} onClick={handleClick}>
-      <ColorDot value={value} clickable />
+      <ColorDot value={value} clickable>
+        <EuiScreenReaderOnly>
+          <FormattedMessage
+            id="xpack.ml.fileDatavisualizer.aboutPanel.analyzingDataTitleScreenReader"
+            defaultMessage={`Choose a page background color. The current is ${value}`}
+          />
+        </EuiScreenReaderOnly>
+      </ColorDot>
     </EuiLink>
   );
 
