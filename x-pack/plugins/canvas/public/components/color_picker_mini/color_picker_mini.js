@@ -6,24 +6,24 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EuiLink, EuiScreenReaderOnly } from '@elastic/eui';
-import { FormattedMessage } from '@kbn/i18n/react';
+import { EuiLink } from '@elastic/eui';
+import { injectI18n } from '@kbn/i18n/react';
 import { Popover } from '../popover';
 import { ColorPicker } from '../color_picker';
 import { ColorDot } from '../color_dot';
 import { WorkpadColorPicker } from '../workpad_color_picker/';
 
-export const ColorPickerMini = ({ onChange, value, anchorPosition, colors }) => {
+export const ColorPickerMiniUI = ({ onChange, value, anchorPosition, colors, intl }) => {
   const button = handleClick => (
-    <EuiLink style={{ fontSize: 0 }} onClick={handleClick}>
-      <ColorDot value={value} clickable>
-        <EuiScreenReaderOnly>
-          <FormattedMessage
-            id="xpack.ml.fileDatavisualizer.aboutPanel.analyzingDataTitleScreenReader"
-            defaultMessage={`Choose a page background color. The current is ${value}`}
-          />
-        </EuiScreenReaderOnly>
-      </ColorDot>
+    <EuiLink
+      style={{ fontSize: 0 }}
+      onClick={handleClick}
+      aria-label={intl.formatMessage({
+        id: 'xpack.canvas.colorPickerMini.openColorPanel',
+        defaultMessage: 'Open panel to choose a color',
+      })}
+    >
+      <ColorDot value={value} clickable />
     </EuiLink>
   );
 
@@ -45,9 +45,11 @@ export const ColorPickerMini = ({ onChange, value, anchorPosition, colors }) => 
   );
 };
 
-ColorPickerMini.propTypes = {
+ColorPickerMiniUI.propTypes = {
   colors: PropTypes.array,
   value: PropTypes.string,
   onChange: PropTypes.func,
   anchorPosition: PropTypes.string,
 };
+
+export const ColorPickerMini = injectI18n(ColorPickerMiniUI);
